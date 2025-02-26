@@ -52,11 +52,32 @@ def prox_fase(cobra, comida):
     retangulo = canvas.create_rectangle(x, y, x + ESPACO_SIZE, y + ESPACO_SIZE, fill= COBRA_COLOR)
     
     cobra.square.insert(0, retangulo) 
+    
+    del cobra.coordinatess[-1]
+    
+    canvas.delete(cobra.square[-1])
+    del cobra.square[-1]
+    
     janela.after(VEL, prox_fase, cobra, comida)
         
 
 def muda_dir(nova_dir):
-    pass
+    global dir
+    
+    if nova_dir == "left":
+        if dir != 'right':
+            dir = nova_dir
+    elif nova_dir == "right":
+        if dir != 'left':
+            dir = nova_dir
+    elif nova_dir == "up":
+        if dir != 'down':
+            dir = nova_dir
+    elif nova_dir == "down":
+        if dir != 'up':
+            dir = nova_dir
+      
+            
 
 def conf_colisao():
     pass
@@ -90,6 +111,11 @@ x = int((screen_largura/2) - (janela_largura/2))
 y = int((screen_altura/2) - (janela_altura/2))
 
 janela.geometry(f"{janela_largura}x{janela_altura}+{x}+{y}")
+
+janela.bind('<Left>', lambda event: muda_dir('left'))
+janela.bind('<Right>', lambda event: muda_dir('right'))
+janela.bind('<Up>', lambda event: muda_dir('up'))
+janela.bind('<Down>', lambda event: muda_dir('down'))
 
 cobra= Cobra()
 comida= Comida()
