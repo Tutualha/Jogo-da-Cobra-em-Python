@@ -28,7 +28,7 @@ class Comida:
         x = random.randint(0, (JOGO_LARGURA // ESPACO_SIZE)-1) * ESPACO_SIZE
         y = random.randint(0, (JOGO_ALTURA // ESPACO_SIZE) - 1) * ESPACO_SIZE
         
-        self.coordinates = [x,y]
+        self.coordinatess = [x,y]
         canvas.create_oval(x, y, x + ESPACO_SIZE, y + ESPACO_SIZE, fill=COMIDA_COLOR, tag="comida")
        
 
@@ -48,7 +48,7 @@ def prox_fase(cobra, comida):
     elif dir == "right":
         x += ESPACO_SIZE
         
-    cobra.coordinates.insert(0, (x, y))
+    cobra.coordinatess.insert(0, (x, y))
     retangulo = canvas.create_rectangle(x, y, x + ESPACO_SIZE, y + ESPACO_SIZE, fill= COBRA_COLOR)
     
     cobra.square.insert(0, retangulo) 
