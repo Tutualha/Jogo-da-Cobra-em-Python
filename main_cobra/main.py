@@ -1,14 +1,14 @@
 from tkinter import *
 import random
 
-JOGO_LARGURA = 800
-JOGO_ALTURA = 800 # espaço_size / altura e largura = 16
-VEL = 50
-ESPACO_SIZE = 50
+JOGO_LARGURA = 1000
+JOGO_ALTURA = 800
+VEL = 70
+ESPACO_SIZE = 30
 PART_CORPO = 3
 COBRA_COLOR = "#128912"
 COMIDA_COLOR = "#FF0000"
-BACKGROUND_COLOR = "#000000"
+BACKGROUND_COLOR = "#F0F0F0"
 
 class Cobra:
     def __init__(self):
@@ -53,12 +53,22 @@ def prox_fase(cobra, comida):
     
     cobra.square.insert(0, retangulo) 
     
-    del cobra.coordinatess[-1]
+    if x == comida.coordinatess[0] and y == comida.coordinatess[1]:
+        global pontos
+        pontos +=1
+        label.config(text="Pontos: {}".format(pontos))
+        canvas.delete("comida")
+        comida = Comida()
     
-    canvas.delete(cobra.square[-1])
-    del cobra.square[-1]
+    else:    
+        del cobra.coordinatess[-1]
+        canvas.delete(cobra.square[-1])
+        del cobra.square[-1]
     
-    janela.after(VEL, prox_fase, cobra, comida)
+    if conf_colisao(cobra):
+        game_over()
+    else:
+        janela.after(VEL, prox_fase, cobra, comida)
         
 
 def muda_dir(nova_dir):
@@ -79,11 +89,24 @@ def muda_dir(nova_dir):
       
             
 
-def conf_colisao():
-    pass
+def conf_colisao(cobra):
+    x, y = cobra.coordinatess[0]
+    
+    if x < 0 or x >= JOGO_LARGURA:
+        return True
+    elif y < 0 or y >= JOGO_ALTURA:
+        print("LOL")
+        return True
+    
+    for PART_CORPO in cobra.coordinatess[1:]:
+        if x == PART_CORPO[0] and y == PART_CORPO[1]:
+            print("LOL")
+            return True
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
+                       font=('Verdana', 70), text="SSSSssSSs", fill="red", tag="gameover")
 
 
 janela = Tk()
