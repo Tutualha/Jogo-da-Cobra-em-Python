@@ -2,13 +2,20 @@ from tkinter import *
 import random
 
 JOGO_LARGURA = 1000
-JOGO_ALTURA = 800
+JOGO_ALTURA = 1000
 VEL = 70
 ESPACO_SIZE = 30
 PART_CORPO = 3
 COBRA_COLOR = "#128912"
 COMIDA_COLOR = "#FF0000"
 BACKGROUND_COLOR = "#F0F0F0"
+TEXTOS = [
+    "avó", "café", "fórmula", "herói", "júri", "médico", "país", "público", "rápido", "sofá",
+    "ânsia", "bênção", "câmera", "êxito", "hífen", "lêmure", "pêssego", "tênis",
+    "anônimo", "coração", "elétron", "órgão", "pão", "sótão", "trovão", "vulcão"
+]
+
+palavras_coletadas = []
 
 class Cobra:
     def __init__(self):
@@ -28,9 +35,12 @@ class Comida:
         x = random.randint(0, (JOGO_LARGURA // ESPACO_SIZE)-1) * ESPACO_SIZE
         y = random.randint(0, (JOGO_ALTURA // ESPACO_SIZE) - 1) * ESPACO_SIZE
         
+        self.palavra = random.choice(TEXTOS)
+        
         self.coordinatess = [x,y]
         canvas.create_oval(x, y, x + ESPACO_SIZE, y + ESPACO_SIZE, fill=COMIDA_COLOR, tag="comida")
-       
+        canvas.create_text(x + ESPACO_SIZE // 2, y + ESPACO_SIZE // 2, text=self.palavra, fill="black", font=("Verdana", 12), tag="texto")
+        
 
 def prox_fase(cobra, comida):
     
@@ -57,7 +67,10 @@ def prox_fase(cobra, comida):
         global pontos
         pontos +=1
         label.config(text="Pontos: {}".format(pontos))
+        palavras_coletadas.append(comida.palavra)
         canvas.delete("comida")
+        canvas.delete("texto")
+        texto = TEXTOS
         comida = Comida()
     
     else:    
@@ -95,18 +108,25 @@ def conf_colisao(cobra):
     if x < 0 or x >= JOGO_LARGURA:
         return True
     elif y < 0 or y >= JOGO_ALTURA:
-        print("LOL")
+        print("GAME OVER")
         return True
     
     for PART_CORPO in cobra.coordinatess[1:]:
         if x == PART_CORPO[0] and y == PART_CORPO[1]:
-            print("LOL")
+            print("GAME OVER")
             return True
 
 def game_over():
     canvas.delete(ALL)
+    if palavras_coletadas:
+        palavras_texto = ", ".join(palavras_coletadas)
+    else:
+        palavras_texto = "Nenhuma palavra coletada"
+        
+    game_over_palavras = "GAME OVER\nPalavras coletadas:\n" + palavras_texto
+        
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('Verdana', 70), text="SSSSssSSs", fill="red", tag="gameover")
+                       font=('Verdana', 40), text=game_over_palavras, fill="gray", tag="gameover")
 
 
 janela = Tk()
