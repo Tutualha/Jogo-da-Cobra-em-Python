@@ -1,14 +1,14 @@
 ## JOGO DA COBRA+ EM PYTHON
 `Jogo da Cobra (Snake Game)`
 
-Este projeto é uma implementação simples do jogo da cobra utilizando a biblioteca Tkinter em Python e com a implementação de aprendizado de linguagem (python).
+Este projeto é uma implementação simples do jogo da cobra utilizando a biblioteca Tkinter em Python e com a implementação de aprendizado de gramatica.
 
 ## Funcionalidades
 
 Movimentação da cobra usando as setas do teclado.
 Crescimento da cobra ao comer a comida.
 
-formação de codigo a cada comida pegada.
+Palavras com acentos armazenada e exibidas.
 
 O jogo termina se a cobra colidir com as bordas ou com o próprio corpo.
 
@@ -62,8 +62,6 @@ python jogo_da_cobra.py
 - Permitir que o jogo recomece após o game over.
 
 - implementação de fases
-
-- Linhas de codigos para o apredizado nas comidas + aba de código
 
 **esta sendo desenvolvido por mim, Arthur Borges.**
 
